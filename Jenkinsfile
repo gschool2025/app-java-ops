@@ -1,26 +1,18 @@
 pipeline {
     agent any
     parameters {
-        booleanParam(name: 'DEPLOY', defaultValue: true, description: 'Czy uruchomić etap wdrożenia?')
-    }
-    stages {
-        stage('Build') {
-            steps {
-                echo 'Building applications...'
-            }
+
+        tool { 
+            jdk 'Java'
         }
-        stage('Test') {
-            steps {
-                echo 'Testing Applications...'
-            }
+
+        environment  {
+            JAVA_HOME = tool 'Java'
         }
-        stage('Deploy') {
-            when {
-                expression { params.DEPLOY }
-            }
-            steps {
-                echo 'Implementing applications...'
-            }
-        }
-    }
+
+        stages {
+            stage('Checkout') {
+                steps {
+                    git url: 'https://github.com/gschool2025/app-java.git'
+                }
 }
